@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using URL__2_.Models.Models.Enum;
 
 namespace AcortURL.Models.Dtos
 {
@@ -9,8 +10,10 @@ namespace AcortURL.Models.Dtos
         [Required]
         public string? Url { get; set; }
 
+    
+
         [Required]
-        public string? Categoria { get; set; }
+        public Categoria? Categorias { get; set; }
 
 
     }

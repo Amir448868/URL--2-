@@ -1,4 +1,4 @@
-﻿using AcortURL.Models.Enum;
+﻿
 
 namespace AcortURL.Models
 {
@@ -8,6 +8,6 @@ namespace AcortURL.Models
  
         public string UserName { get; set; }
       
-        public Role Role { get; set; }
+     
     }
 }

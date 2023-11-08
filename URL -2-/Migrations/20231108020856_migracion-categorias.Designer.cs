@@ -3,6 +3,7 @@ using System;
 using AcortURL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace URL__2_.Migrations
 {
     [DbContext(typeof(UrlsShortenerContext))]
-    partial class UrlsShortenerContextModelSnapshot : ModelSnapshot
+    [Migration("20231108020856_migracion-categorias")]
+    partial class migracioncategorias
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.9");

@@ -9,6 +9,7 @@ using System.Text.Json;
 using RouteAttribute = Microsoft.AspNetCore.Components.RouteAttribute;
 using AcortURL.Models.Dtos;
 using Microsoft.AspNetCore.Authorization;
+using URL__2_.Models.Models.Enum;
 
 namespace AcortURL.Controllers
 {
@@ -72,33 +73,36 @@ namespace AcortURL.Controllers
                 Url = newUrl.Url,
                 UrlCorta = shortUrl,
                 Visitas=0,
-               
+                Categorias = newUrl.Categorias,
             };
-                
-            var categoria = new CategoriasURL()
-                {
-                    NombreCategoria = newUrl.Categoria,
-                    URLs = new System.Collections.Generic.List<URL>()
-                    {
-                        urlEntity
-                    }
-                };
-            _UrlContext.CategoriasURL.Add(categoria);
-            _UrlContext.Urls.Add(urlEntity);
-            _UrlContext.SaveChanges();
-
-                var options = new JsonSerializerOptions
-                {
-                    ReferenceHandler = ReferenceHandler.Preserve
-                };
-
-                string jsonResponse = JsonSerializer.Serialize(urlEntity, options);
-
+                _UrlContext.Urls.Add(urlEntity);
+                _UrlContext.SaveChanges();
+            };
                 return Redirect(newUrl.Url);
             }
+
+
+        [HttpGet("api/url/getAllByCategories")]
+        public IActionResult getAllbyCategories(Categoria categorias)
+        {
+            var urls = _UrlContext.Urls.Where(u => u.Categorias == categorias).ToList();
+            if (urls == null)
+            {
+                return NotFound("No hay URLs en esta categoría");
+            }
+            else
+            {
+                return Ok(urls);
+            }
+
         }
     }
+
 }
+    
+
+    
+
 
 
 

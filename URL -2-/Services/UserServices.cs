@@ -2,7 +2,7 @@
 using AcortURL.Entities;
 using AcortURL.Models;
 using AcortURL.Models.Dtos;
-using AcortURL.Models.Enum;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,7 +28,7 @@ namespace AcortURL
             return _context.Users.Select(u => new UserDto()
             {
                 Id = u.Id,
-                Role = u.Role,
+                
                 UserName = u.Username
             }).ToList();
         }
@@ -45,7 +45,7 @@ namespace AcortURL
             {
                 Password = dto.Password,
                 Username = dto.UserName,
-                Role = Role.User,
+               
             };
             _context.Users.Add(newUser);
             _context.SaveChanges();

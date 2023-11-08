@@ -22,13 +22,7 @@ namespace AcortURL.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            //vemos si el usuario es admin
-            string role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
-            if (role == "Admin")
-            {
                 return Ok(_userService.GetAll());
-            }
-            return Forbid();
 
         }
         
@@ -52,7 +46,6 @@ namespace AcortURL.Controllers
                 
                 UserName = user.Username,
                 Id = user.Id,
-                Role = user.Role
             };
 
             return Ok(dto);
@@ -98,12 +91,7 @@ namespace AcortURL.Controllers
             {
                 return BadRequest("El cliente que intenta eliminar no existe");
             }
-
-            if (user.Username != "Admin")
-            {
                 _userService.Delete(id);
-            }
-            
             return NoContent();
         }
     }

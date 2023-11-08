@@ -1,4 +1,4 @@
-﻿using AcortURL.Models.Enum;
+﻿
 using System.Data;
 
 namespace AcortURL.Entities
@@ -10,10 +10,6 @@ namespace AcortURL.Entities
         public string Username { get; set; }
 
         public string Password { get; set; }
-
-        public Role Role { get; set; } = Role.User;
-
-        
 
     }
 }

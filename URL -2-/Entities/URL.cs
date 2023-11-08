@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using URL__2_.Models.Models.Enum;
 
 namespace AcortURL.Entities
 {
@@ -19,11 +20,7 @@ namespace AcortURL.Entities
 
         public int? Visitas { get; set; }
 
-        public int UserId { get; set; } // Propiedad de clave foránea para el usuario al que pertenece
+        public Categoria? Categorias { get; set; } = Categoria.Otros; // Propiedad de navegación para la categoría a la que pertenece
 
-
-        public int CategoriaId { get; set; } // Propiedad de clave foránea para la categoría a la que pertenece
-        [InverseProperty("URLs")] // Atributo que indica que la propiedad anterior es una clave foránea
-        public CategoriasURL? Categoria { get; set; }
     }
 }
