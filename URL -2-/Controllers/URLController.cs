@@ -34,8 +34,9 @@ namespace AcortURL.Controllers
             return Ok(_UrlContext.Urls.ToList());
         }
 
-
+        
         [HttpGet("get/{url}")]
+        [AllowAnonymous]
         public IActionResult GetURL(string url)
         {
             var urlEntity = _UrlContext.Urls.FirstOrDefault(u => u.UrlCorta == url);
