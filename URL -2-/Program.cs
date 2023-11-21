@@ -4,9 +4,7 @@ using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-
-
-
+using URL__2_.Services;
 
 namespace AcortURL
 {
@@ -51,6 +49,7 @@ namespace AcortURL
             builder.Services.AddDbContext<UrlsShortenerContext>(dbContextOptions => dbContextOptions.UseSqlite(
     builder.Configuration["ConnectionStrings:UrlsAPIDBConnectionString"]));
             builder.Services.AddScoped<UserServices>();
+            builder.Services.AddScoped<UrlServices>();
             
 
             builder.Services.AddAuthentication("Bearer") //"Bearer" es el tipo de auntenticación que tenemos que elegir después en PostMan para pasarle el token

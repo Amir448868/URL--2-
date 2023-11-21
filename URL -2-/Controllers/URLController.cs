@@ -10,6 +10,7 @@ using RouteAttribute = Microsoft.AspNetCore.Components.RouteAttribute;
 using AcortURL.Models.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using URL__2_.Models.Models.Enum;
+using URL__2_.Services;
 
 namespace AcortURL.Controllers
 {
@@ -20,82 +21,48 @@ namespace AcortURL.Controllers
 
     public class URLController : ControllerBase
     {
-        private UrlsShortenerContext _UrlContext;
+        
+        private UrlServices _UrlServices;
 
-        public URLController(UrlsShortenerContext UrlContext)
+        public URLController(UrlServices urlservices)
         {
-            _UrlContext = UrlContext;
+            _UrlServices = urlservices;
         }
 
 
         [HttpGet("get")]
         public IActionResult GetURLs()
         {
-            return Ok(_UrlContext.Urls.ToList());
+            return Ok(_UrlServices.getAll());
         }
 
-        
+
         [HttpGet("get/{url}")]
         [AllowAnonymous]
         public IActionResult GetURL(string url)
         {
-            var urlEntity = _UrlContext.Urls.FirstOrDefault(u => u.UrlCorta == url);
-
-            if (urlEntity == null)
-            {
-                return NotFound("La URL no existe");
-            }
-            else
-            {
-                urlEntity.Visitas++;
-                // Mueve el SaveChanges aquí para asegurarte de que se guarde la visita
-                _UrlContext.SaveChanges();
-
-                // Redirige al usuario después de incrementar el contador de visitas
-                return Redirect(urlEntity.Url);
-            }
+            return _UrlServices.GetUrlByShortUrl(url);
         }
 
 
         [HttpPost("post")]
         public IActionResult CreateURL([FromQuery] URLForCreationDto newUrl)
         {
-            var existingURL= _UrlContext.Urls.FirstOrDefault(u => u.Url == newUrl.Url);
-            if (existingURL != null)
-            {
-                return Conflict("La URL ya existe en la base de datos.");
-            }
-            else { 
-            string shortUrl = GenerarShortURL.GenerarShortUrl();
-
-            var urlEntity = new URL()
-            {
-                Nombre = newUrl.Nombre,
-                Url = newUrl.Url,
-                UrlCorta = shortUrl,
-                Visitas=0,
-                Categorias = newUrl.Categorias,
-            };
-                _UrlContext.Urls.Add(urlEntity);
-                _UrlContext.SaveChanges();
-            };
-                return Redirect(newUrl.Url);
-            }
+            return _UrlServices.CreateUrl(newUrl);
+        }
 
 
         [HttpGet("api/url/getAllByCategories")]
         public IActionResult getAllbyCategories(Categoria categorias)
         {
-            var urls = _UrlContext.Urls.Where(u => u.Categorias == categorias).ToList();
-            if (urls == null)
+            var categoria = _UrlServices.GetUrlsByCategory(categorias);
+            if (categoria == null)
             {
-                return NotFound("No hay URLs en esta categoría");
-            }
-            else
+                return Ok("No hay urls con esa categoria");
+            }else
             {
-                return Ok(urls);
+                return Ok(categoria);
             }
-
         }
     }
 
